@@ -16,7 +16,7 @@ function installed(){
 	var fs = require('fs');
 
 	try{
-		fs.lstatSync('app');
+		fs.lstatSync(__dirname + '/app');
 		return true;
 	} catch(e) {
 		return false;
@@ -30,8 +30,12 @@ function install(){
 	var button = document.getElementById('install');
 	button.textContent = 'Installing...';
 
-	git.clone('https://github.com/OstlerDev/PopcornTV.git', 'app/', function(err, repo){ 
-		if (err) alert(err);
+	alert(__dirname);
+	git.clone('https://github.com/OstlerDev/PopcornTV.git', __dirname + '/app', function(err, repo){ 
+		if (err){
+			alert(err);
+			return;
+		}
 
 		var remote = require('remote');
 		var BrowserWindow = remote.require('browser-window');  // Module to create native browser window.
@@ -57,7 +61,7 @@ function install(){
 
 function update(){
 	var git = require('gift');
-	var repo = git('app');
+	var repo = git(__dirname + '/app');
 
 	var button = document.getElementById('install');
 	button.textContent = 'Updating...';
